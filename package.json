@@ -9,5 +9,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "module",
+  "dependencies": {
+    "@speechmatics/batch-client": "^5.4.2",
+    "dotenv": "^18.0.10"
+  }
 }
