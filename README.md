@@ -227,4 +227,6 @@ AiVideoCutter/
 Developed as an exploration of artificial intelligence, speech recognition, and automated multimedia processing.
 
 **AI Video Cutter — Making video editing less manual.**
+```
 - Arnav
+```
