@@ -1,0 +1,44 @@
+
+name: FFmpeg Worker Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Generate sample video
+        run: |
+          ffmpeg -hide_banner \
+            -f lavfi \
+            -i testsrc2=size=640x360:rate=30 \
+            -t 5 \
+            -c:v libx264 \
+            -pix_fmt yuv420p \
+            /tmp/input.mp4
+
+      - name: Process video
+        run: |
+          ffmpeg -hide_banner \
+            -i /tmp/input.mp4 \
+            -vf scale=320:-2 \
+            -c:v libx264 \
+            -preset ultrafast \
+            /tmp/output.mp4
+
+      - name: Verify output
+        run: |
+          ffprobe -v error \
+            -show_entries format=duration,size \
+            -of default=noprint_wrappers=1 \
+            /tmp/output.mp4
+
+          ls -lh /tmp/input.mp4 /tmp/output.mp4
